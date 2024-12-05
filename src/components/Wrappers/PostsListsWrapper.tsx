@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { AxiosError } from "axios";
-import API from "../services/api";
-import { PostsFromApi } from "../types/common";
-import PostFeed from "./PostFeed";
+import API from "../../services/api";
+import { PostsFromApi } from "../../types/common";
+import PostFeed from "../PostFeed";
+import { PostsLoader } from "../Loaders/PostsLoader";
 
 export function PostsListsWrapper() {
     const [postList, setPostList] = useState<PostsFromApi[] | []>([]);
@@ -10,7 +11,7 @@ export function PostsListsWrapper() {
     const getPosts = useCallback(async () => {
         try {
             const res = await API.getPosts();
-            setPostList(res.data);
+            setTimeout(() => setPostList(res.data), 1500);
         } catch (err) {
             const error = err as Error | AxiosError;
             console.log(error);
@@ -22,9 +23,9 @@ export function PostsListsWrapper() {
         getPosts();
     }, [getPosts]);
     return (
-        <div>
+        <>
             {postList?.length === 0 ? (
-                <div className="animate-pulse w-full p-5">Loading...</div>
+                <PostsLoader />
             ) : (
                 <>
                     {postList?.map((post) => (
@@ -32,6 +33,6 @@ export function PostsListsWrapper() {
                     ))}
                 </>
             )}
-        </div>
+        </>
     );
 }

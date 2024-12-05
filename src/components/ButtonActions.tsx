@@ -30,7 +30,7 @@ function ButtonActions({
     }, [postId, setComments]);
 
     return (
-        <div className="flex flex-row justify-between px-4 pb-4">
+        <div className="flex flex-row justify-between px-4 pb-8">
             <button className="rounded" onClick={handleLikeCount}>
                 Like {likes !== 0 ? <span>&nbsp;👍🏼{likes}</span> : ""}
             </button>
